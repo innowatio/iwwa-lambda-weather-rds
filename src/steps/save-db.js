@@ -1,5 +1,6 @@
 import moment from "moment";
 
+import log from "../services/logger";
 import getDb from "../services/db";
 
 export async function insertWeather (weatherEvent) {
@@ -14,7 +15,7 @@ export async function insertWeather (weatherEvent) {
         getMeasurementFromType(weatherEvent, "weather-humidity"),
         weatherEvent.sensorId
     ];
-    console.log(params);
+    log.info(params, "insert-db");
     await db.query(
         "INSERT INTO weather (date, temperature, cloudeness, humidity, area) VALUES ($1, $2, $3, $4, $5)",
         ...params,
