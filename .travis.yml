@@ -3,6 +3,14 @@ language: node_js
 node_js:
   - 6
 
+services:
+  - postgresql
+
+before_script:
+  - psql -c "create database travis_ci_test;" -U postgres
+  - psql -d travis_ci_test -c "create sequence public.weather_id_seq increment 1 minvalue 1 maxvalue 9223372036854775807;" -U postgres
+  - psql -d travis_ci_test -c "create table public.weather(id integer not null default nextval('weather_id_seq'), user_app_id integer, date timestamp without time zone, temperature integer, cloudeness integer, humidity integer, area character varying);" -U postgres
+
 script:
   - npm run coverage
   - npm run codecov
