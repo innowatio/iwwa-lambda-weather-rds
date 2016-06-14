@@ -11,7 +11,8 @@ import getDb from "services/db";
 describe("Save weather events on RDS", () => {
 
     const context = {
-        succeed: sinon.spy()
+        succeed: sinon.spy(),
+        fail: sinon.spy()
     };
 
     const db = getDb();
@@ -32,9 +33,10 @@ describe("Save weather events on RDS", () => {
 
     afterEach(() => {
         context.succeed.reset();
+        context.fail.reset();
     });
 
-    it("Skip event", async () => {
+    it("Skip event [CASE 0]", async () => {
         const weatherEvent = {
             id: "eventId",
             data: {
@@ -48,6 +50,32 @@ describe("Save weather events on RDS", () => {
         };
         await handler(getEventFromObject(weatherEvent), context);
         expect(context.succeed).to.have.been.callCount(1);
+        expect(context.fail).to.have.been.callCount(0);
+
+        const result = await db.rows("SELECT * from weather");
+        expect(result.length).to.be.equal(0);
+    });
+
+    it("Skip event [CASE 1]", async () => {
+        const weatherEvent = {
+            id: "eventId",
+            data: {
+                element: {
+                    sensorId: "IT-sondrio",
+                    date: new Date(),
+                    measurements: [{
+                        type: "activeEnergy",
+                        value: 10,
+                        unitOfMeasurement: ""
+                    }]
+                },
+                id: "weather-01"
+            },
+            type: "element inserted in collection readings"
+        };
+        await handler(getEventFromObject(weatherEvent), context);
+        expect(context.succeed).to.have.been.callCount(1);
+        expect(context.fail).to.have.been.callCount(0);
 
         const result = await db.rows("SELECT * from weather");
         expect(result.length).to.be.equal(0);
@@ -85,9 +113,9 @@ describe("Save weather events on RDS", () => {
         await handler(getEventFromObject(weatherEvent), context);
 
         expect(context.succeed).to.have.been.callCount(1);
+        expect(context.fail).to.have.been.callCount(0);
 
         const result = await db.rows("SELECT * from weather");
-        console.log(result);
         expect(result.length).to.be.equal(1);
     });
 

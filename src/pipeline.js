@@ -9,19 +9,17 @@ export default async function pipeline(event) {
      *   have an `element` property. When processing said events, just return and
      *   move on without failing, as failures can block the kinesis stream.
      */
-    if (!rawReading &&
-        !rawReading.sensorId &&
-        !rawReading.measurements &&
-        (
-            rawReading.measurements == "weather-humidity" ||
-            rawReading.measurements == "weather-cloudeness" ||
-            rawReading.measurements == "weather-temperature" ||
-            rawReading.measurements == "weather-id"
-        )) {
+
+    if (!rawReading ||
+        !rawReading.sensorId ||
+        !rawReading.measurements ||
+        !rawReading.measurements.find(x => x.type == "weather-humidity") ||
+        !rawReading.measurements.find(x => x.type == "weather-cloudeness") ||
+        !rawReading.measurements.find(x => x.type == "weather-temperature") ||
+        !rawReading.measurements.find(x => x.type == "weather-id")
+    ) {
         return null;
     }
-    console.log(987654321);
-    insertWeather(rawReading);
 
-    return null;
+    insertWeather(rawReading);
 }
