@@ -7,3 +7,22 @@
 # iwwa-lambda-weather-rds
 
 Lambda function for weather infos
+
+## Deployment
+
+This project deployment is automated with Lambdafile [`lambda-boilerplate`](https://github.com/lk-architecture/lambda-boilerplate/).
+
+### Configuration
+
+The following environment variables are needed to configure the function:
+
+- `DB_USER`
+- `DB_PASS`
+- `DB_URL`
+- `DB_NAME`
+
+### Run test
+
+In order to run tests locally a Postgres instance and the above environment
+variables are needed.
+Then, just run `npm run test` command.
