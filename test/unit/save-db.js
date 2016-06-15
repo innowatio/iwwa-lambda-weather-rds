@@ -63,26 +63,3 @@ describe("Save weather into DB", () => {
         }]);
     });
 });
-
-
-// {
-//     sensorId: `${weather.country}-${weather.provincia.toLowerCase()}`,
-//     date: normalized.format(),
-//     measurements: [{
-//         type: "weather-cloudeness",
-//         value: weather.cloudeness,
-//         unitOfMeasurement: "%"
-//     }, {
-//         type: "weather-humidity",
-//         value: weather.humidity,
-//         unitOfMeasurement: "%"
-//     }, {
-//         type: "weather-temperature",
-//         value: weather.temperature,
-//         unitOfMeasurement: "°C"
-//     }, {
-//         type: "weather-id",
-//         value: weather.id,
-//         unitOfMeasurement: "id"
-//     }]
-// }}
