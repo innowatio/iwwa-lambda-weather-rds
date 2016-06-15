@@ -12,7 +12,7 @@ before_script:
   - psql -d travis_ci_test -c "create table public.province(id integer not null default nextval('province_id_seq'), name character varying, code character varying, region character varying, macro_region character varying);" -U postgres
   - psql -d travis_ci_test -c "insert into province values(91, 'Sondrio', 'SO', 'Lombardia', 'Settentrionale');" -U postgres
   - psql -d travis_ci_test -c "create sequence public.weather_id_seq increment 1 minvalue 1 maxvalue 9223372036854775807;" -U postgres
-  - psql -d travis_ci_test -c "create table public.weather(id integer not null default nextval('weather_id_seq'), user_app_id integer, date timestamp without time zone, temperature integer, cloudeness integer, humidity integer, area character varying);" -U postgres
+  - psql -d travis_ci_test -c "create table public.weather(id integer not null default nextval('weather_id_seq'), date timestamp without time zone, temperature integer, cloudeness integer, humidity integer, province_id integer);" -U postgres
 
 script:
   - npm run coverage
