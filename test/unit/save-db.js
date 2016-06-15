@@ -54,13 +54,12 @@ describe("Save weather into DB", () => {
 
         const result = await db.rows("SELECT * from weather");
         expect(result).to.deep.equal([{
-            area: "IT-sondrio",
+            province_id: 91,
             cloudeness: 10,
             humidity: 15,
             id: parseInt(sequence.last_value),
             temperature: 24,
-            date: new Date(),
-            user_app_id: null
+            date: new Date()
         }]);
     });
 });

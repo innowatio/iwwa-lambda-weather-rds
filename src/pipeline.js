@@ -21,5 +21,5 @@ export default async function pipeline(event) {
         return null;
     }
 
-    insertWeather(rawReading);
+    await insertWeather(rawReading);
 }

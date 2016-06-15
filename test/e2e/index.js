@@ -19,21 +19,18 @@ describe("Save weather events on RDS", () => {
 
     sinon.useFakeTimers();
 
-    before(async () => {
+    beforeEach(async () => {
         await db.query({
             text: "DELETE FROM weather"
         });
     });
 
-    after(async () => {
-        await db.query({
-            text: "DELETE FROM weather"
-        });
-    });
-
-    afterEach(() => {
+    afterEach(async () => {
         context.succeed.reset();
         context.fail.reset();
+        await db.query({
+            text: "DELETE FROM weather"
+        });
     });
 
     it("Skip event [CASE 0]", async () => {
