@@ -116,4 +116,42 @@ describe("Save weather events on RDS", () => {
         expect(result.length).to.be.equal(1);
     });
 
+    it("Save Sondrio weatherEvent e2e", async () => {
+        const weatherEvent = {
+            id: "eventId",
+            data: {
+                element: {
+                    sensorId: "IT-pesaro",
+                    date: new Date(),
+                    measurements: [{
+                        type: "weather-cloudeness",
+                        value: 11,
+                        unitOfMeasurement: "%"
+                    }, {
+                        type: "weather-humidity",
+                        value: 16,
+                        unitOfMeasurement: "%"
+                    }, {
+                        type: "weather-temperature",
+                        value: 25,
+                        unitOfMeasurement: "°C"
+                    }, {
+                        type: "weather-id",
+                        value: 800,
+                        unitOfMeasurement: "id"
+                    }]
+                },
+                id: "weather-02"
+            },
+            type: "element inserted in collection readings"
+        };
+        await handler(getEventFromObject(weatherEvent), context);
+
+        expect(context.succeed).to.have.been.callCount(1);
+        expect(context.fail).to.have.been.callCount(0);
+
+        const result = await db.rows("SELECT * from weather");
+        expect(result.length).to.be.equal(1);
+    });
+
 });
