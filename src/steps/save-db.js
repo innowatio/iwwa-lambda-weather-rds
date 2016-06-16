@@ -11,7 +11,7 @@ export async function insertWeather (weatherEvent) {
     const db = getDb();
     const result = await db.row(
         "SELECT id FROM province WHERE LOWER(name) like $1",
-        `%${area}%`
+        `${area}%`
     );
 
     const params = [
