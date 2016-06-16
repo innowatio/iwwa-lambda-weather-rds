@@ -116,7 +116,7 @@ describe("Save weather events on RDS", () => {
         expect(result.length).to.be.equal(1);
     });
 
-    it("Save Sondrio weatherEvent e2e", async () => {
+    it("Save Pesaro weatherEvent e2e", async () => {
         const weatherEvent = {
             id: "eventId",
             data: {
